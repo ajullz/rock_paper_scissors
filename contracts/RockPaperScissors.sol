@@ -147,6 +147,7 @@ contract RockPaperScissors {
 
     function payWinnersReward() external noReentrant {
         require(msg.sender == _owner || msg.sender == _players[0] || msg.sender == _players[1], "Only the owner OR the current players can call this function");
+        require(_choices[_players[0]] != Choice.None && _choices[_players[1]] != Choice.None, "One of the players hasn't revealed yet their commitment");
 
         address winner = address(0);
 
