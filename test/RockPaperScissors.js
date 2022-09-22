@@ -99,4 +99,14 @@ describe("RockPaperScissors contract", function () {
         expect(await gameContract.connect(addr1).didIWin()).to.equal("It is a draw");
         expect(await gameContract.connect(addr2).didIWin()).to.equal("It is a draw");
     });
+
+    it("Invalid choice", async function () {
+        // load setup
+        const { gameContract, feeAsStr, addr1, addr2, commitment1 } = await loadFixture(deployTokenFixture);
+
+        await gameContract.connect(addr1).play(commitment1, {value: feeAsStr});
+        await gameContract.connect(addr2).play(commitment1, {value: feeAsStr});
+
+        await expect(gameContract.connect(addr1).reveal(8, 10)).to.be.revertedWith("Invalid Choice");
+    });
 });
